@@ -1,0 +1,24 @@
+{
+  "name": "connect-medea",
+  "version": "0.0.1",
+  "description": "Medea session store for Connect.",
+  "main": "connect-medea.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "medea",
+    "connect",
+    "session"
+  ],
+  "author": "Kevin Swiber <kswiber@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "medea": ">=0.0.3",
+    "msgpack-js": "~0.1.5"
+  },
+  "devDependencies": {
+    "connect": "~2.7.4"
+  }
+}
