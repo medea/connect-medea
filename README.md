@@ -46,17 +46,6 @@ var app = express();
 app.use(express.session({ store: store, secret: 'el chupacabra' }));
 ```
 
-To keep things nice and tidy, it's recommended to ensure Medea is closed when the process exits.  Like so...
-
-```javascript
-['SIGINT', 'SIGTERM'].forEach(function(signal) {
-  process.on(signal, function() {
-    sessionStore.client.close(function() {
-      process.exit();
-    });
-  });
-});
-```
 ## License
 
 MIT
