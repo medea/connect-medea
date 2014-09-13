@@ -2,7 +2,7 @@ var assert = require('assert');
 var connect = require('connect');
 var MedeaStore = require('./')(connect);
 
-var store = new MedeaStore;
+var store = new MedeaStore();
 
 store.on('connect', function(){
   // #set()
