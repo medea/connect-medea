@@ -1,5 +1,5 @@
-var Medea = require('medea')
-var msgpack = require('msgpack-js');
+var medea = require('medea')
+var ttl = require('medea-ttl');
 
 var oneDay = 86400;
 
@@ -16,12 +16,11 @@ module.exports = function(connect){
       ? 'sess:'
       : options.prefix;
 
-    this.client = options.client || new Medea(options);
+    this.client = ttl(options.client || medea(options));
     this.ttl =  options.ttl;
 
     options.dirname = options.dirname || process.cwd() + '/data';
 
-    this.state = 'opening';
     this.client.open(options.dirname, function(err) {
       if (err) {
         this.emit('disconnect');
@@ -41,18 +40,16 @@ module.exports = function(connect){
     this.client.get(sid, function(err, data){
       if (err) return fn(err);
       if (!data) return fn();
-      var result = msgpack.decode(data);
+      var result;
+      data = data.toString();
 
-      if (result.expires < Date.now()) {
-        self.client.remove(sid, function(err) {
-          if (err) return fn(err);
+      try {
+        result = JSON.parse(data);
+      } catch (err) {
+        return fn(err);
+      }
 
-          return fn();
-        });
-        return;
-      } 
-
-      return fn(null, JSON.parse(result.data));
+      return fn(null, result);
     });
   };
 
@@ -65,12 +62,7 @@ module.exports = function(connect){
 
       ttl = ttl || ('number' == typeof maxAge ? maxAge : oneDay);
 
-      var entry = {
-        data: sess,
-        expires: Date.now() + ttl
-      };
-
-      this.client.put(sid, msgpack.encode(entry), function(err) {
+      this.client.put(sid, sess, ttl, function(err) {
         fn && fn.apply(this, arguments);
       });
     } catch (err) {
