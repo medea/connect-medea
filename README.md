@@ -1,6 +1,6 @@
 # Connect Medea
 
-connect-medea is a Connect session store backed by [Medea](https://github.com/argo/medea), a persistent, embedded key-value store.  This implementation is based on [connect-redis](https://github.com/visionmedea/connect-redis).
+connect-medea is a Connect session store backed by [Medea](https://github.com/argo/medea), a persistent, embedded key-value store.  This implementation is based on [connect-redis](https://github.com/visionmedia/connect-redis).
 
 ## Installation
 
